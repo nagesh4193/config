@@ -3,10 +3,6 @@ sudo: false
 
 language: scala
 
-arch:
-   - amd64
-   - ppc64le
-
 before_install: curl -Ls https://git.io/jabba | bash && . ~/.jabba/jabba.sh
 install: jabba install "adopt@~1.$TRAVIS_JDK.0-0" && jabba use "$_" && java -Xmx32m -version
 
@@ -16,6 +12,15 @@ jobs:
        name: "test and docs on jdk8"
        script: sbt ++$TRAVIS_SCALA_VERSION test doc
      - stage: jdk11
+       name: "test and docs on jdk11"
+       script: sbt ++$TRAVIS_SCALA_VERSION test doc
+       env: TRAVIS_JDK=11
+     - stage: jdk8
+       arch: ppc64le
+       name: "test and docs on jdk8"
+       script: sbt ++$TRAVIS_SCALA_VERSION test doc
+     - stage: jdk11
+       arch: ppc64le
        name: "test and docs on jdk11"
        script: sbt ++$TRAVIS_SCALA_VERSION test doc
        env: TRAVIS_JDK=11
